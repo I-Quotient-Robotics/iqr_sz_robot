@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="robotiq_gripper_base">
+
+  <xacro:macro name="robotiq_gripper_base" params="package parent *origin">
+
+    <xacro:property name="prefix" value="robotiq_gripper_base"/>
+
+    <link name="${prefix}_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://${package}/urdf/mesh/robotiq_gripper_base.stl"/>
+        </geometry>
+        <material name="">
+          <color rgba="0.2 0.2 0.2 1"/>
+        </material>
+      </visual>
+    </link>
+    <joint name="${prefix}_joint" type="fixed">
+      <xacro:insert_block name="origin"/>
+      <parent link="${parent}"/>
+      <child link="${prefix}_link"/>
+    </joint>
+
+    <link name="robotiq_gripper_mount"/>
+    <joint name="robotiq_gripper_mount_joint" type="fixed">
+      <origin xyz="0.008 0 0" rpy="0 0 0"/>
+      <parent link="${prefix}_link"/>
+      <child link="robotiq_gripper_mount"/>
+    </joint>
+
+  </xacro:macro>  
+
+</robot>

@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="realsense_support">
+  <xacro:macro name="realsense_support" params="package parent *origin">
+
+    <xacro:property name="prefix" value="realsense_support"/>
+
+    <link name="${prefix}_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://${package}/urdf/mesh/realsense_support.stl"/>
+        </geometry>
+        <material name="">
+          <color rgba="0.2 0.2 0.2 1"/>
+        </material>
+      </visual>
+    </link>
+    <joint name="${prefix}_link_joint" type="fixed">
+      <xacro:insert_block name="origin"/>
+      <parent link="${parent}"/>
+      <child link="${prefix}_link"/>
+    </joint>
+
+    <link name="realsense_mount"/>
+    <joint name="realsense_mount_joint" type="fixed">
+      <origin xyz="0.00635 0 0.0895" rpy="0 0 0"/>
+      <parent link="${prefix}_link"/>
+      <child link="realsense_mount"/>
+    </joint>
+
+    <link name="${prefix}_interface_mount"/>
+    <joint name="${prefix}_interface_mount_joint" type="fixed">
+      <origin xyz="0.0064 0 0" rpy="0 0 0"/>
+      <parent link="${prefix}_link"/>
+      <child link="${prefix}_interface_mount"/>
+    </joint>
+
+  </xacro:macro>
+
+</robot>

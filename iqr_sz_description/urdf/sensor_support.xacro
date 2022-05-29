@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="sensor_support">
+
+  <xacro:macro name="sensor_support" params="package parent *origin">
+    <xacro:property name="prefix" value="sensor_support"/>
+
+    <!-- sensor support link -->
+    <link name="${prefix}_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://${package}/urdf/mesh/support_asm.stl"/>
+        </geometry>
+        <material name="">
+          <color rgba="0.2 0.2 0.2 1"/>
+        </material>
+      </visual>
+    </link>
+    <joint name="${prefix}_link_joint" type="fixed">
+      <xacro:insert_block name="origin"/>
+      <parent link="${parent}"/>
+      <child link="${prefix}_link"/>
+    </joint>
+
+    <!-- vlp16 mount -->
+    <link name="vlp16_mount_link"/>
+    <joint name="vlp16_mount_link_joint" type="fixed">
+      <origin xyz="-0.21395 0.0 0.705" rpy="0.0 0.0 0.0"/>
+      <parent link="${prefix}_link"/>
+      <child link="vlp16_mount_link"/>
+    </joint>
+
+    <!-- zed camera mount -->
+    <link name="zed_mount_link"/>
+    <joint name="zed_mount_link_joint" type="fixed">
+      <origin xyz="-0.153 0.0 0.6085" rpy="0.0 0.0 0.0"/>
+      <parent link="${prefix}_link"/>
+      <child link="zed_mount_link"/>
+    </joint>
+
+    <!-- iqr imu link -->
+    <link name="iqr_imu_link"/>
+    <joint name="iqr_imu_link_joint" type="fixed">
+      <origin xyz="0.0 0.0 0.016" rpy="0.0 0.0 0.0"/>
+      <parent link="${prefix}_link"/>
+      <child link="iqr_imu_link"/>
+    </joint>
+
+    <!-- ur mount -->
+    <link name="ur_mount_link"/>
+    <joint name="ur_mount_link_joint" type="fixed">
+      <origin xyz="0.1728 0.0 0.010" rpy="0.0 0.0 0.0"/>
+      <parent link="${prefix}_link"/>
+      <child link="ur_mount_link"/>
+    </joint>
+
+  </xacro:macro>
+
+</robot>

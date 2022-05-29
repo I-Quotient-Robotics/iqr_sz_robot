@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="robotiq_ft300">
+  <xacro:macro name="robotiq_ft300" params="package parent *origin">
+
+    <xacro:property name="prefix" value="robotiq_ft300"/>
+
+    <joint name="${prefix}_base_joint" type="fixed">
+      <xacro:insert_block name="origin"/>
+      <parent link="${parent}"/>
+      <child link="${prefix}_base"/>
+    </joint>
+
+    <link name="${prefix}_base">
+      <visual>
+        <origin xyz="0 0 0" rpy="1.5707963 3.1415926 1.5707963"/>
+        <geometry>
+          <mesh filename="package://${package}/urdf/mesh/robotiq_ft300_old.stl"/>
+        </geometry>
+        <material name="">
+          <color rgba="0.2 0.2 0.2 1"/>
+        </material>
+      </visual>
+    </link>
+
+    <link name="${prefix}_interface_mount"/>
+    <joint name="${prefix}_surface_joint" type="fixed">
+      <origin xyz="0.0375 0 0" rpy="0 0 0"/>
+      <parent link="${prefix}_base"/>
+      <child link="${prefix}_interface_mount"/>
+    </joint>
+
+  </xacro:macro>
+</robot>

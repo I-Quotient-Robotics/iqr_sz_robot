@@ -1,0 +1,15 @@
+# HUSKY BASE 
+KERNEL=="ttyUSB*", ATTRS{idVendor}=="067b", ATTRS{idProduct}=="2303", MODE:="0777", SYMLINK+="husky_base"
+
+# IMU COM
+KERNEL=="ttyUSB*", ATTRS{idVendor}=="0403", ATTRS{idProduct}=="6001", ATTRS{serial}=="AB0PJX2L", MODE:="0777", SYMLINK+="imu_com"
+
+# gripper COM
+KERNEL=="ttyUSB*", ATTRS{idVendor}=="0403", ATTRS{idProduct}=="6015", ATTRS{serial}=="DA61O1AS", MODE:="0777", SYMLINK+="gripper_com"
+
+# FT COM
+KERNEL=="ttyUSB*", ATTRS{idVendor}=="0403", ATTRS{idProduct}=="6015", ATTRS{serial}=="DA61JB8C", MODE:="0777", SYMLINK+="ft_com"
+
+# JOYSTICKS
+KERNEL=="js*", ATTRS{idVendor}=="054C", ATTRS{idProduct}=="05C4", SYMLINK="input/ps4"
+KERNEL=="js*", ATTRS{idVendor}=="045e", ATTRS{idProduct}=="028e", SYMLINK="input/jy4"

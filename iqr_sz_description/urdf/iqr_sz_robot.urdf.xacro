@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="iqr_sz_robot">
+
+  <xacro:arg name="use_nominal_extrinsics" default="false"/>
+  <xacro:property name="package_name" value="iqr_sz_description"/>
+
+  <!-- Include husky -->
+  <xacro:include filename="$(find husky_description)/urdf/husky.urdf.xacro"/>
+
+  <!-- Include accessories -->
+  <xacro:include filename="$(find ${package_name})/urdf/zed2.xacro"/>
+  <xacro:include filename="$(find ${package_name})/urdf/vlp16.xacro"/>
+  <xacro:include filename="$(find ur_description)/urdf/ur5.urdf.xacro"/>
+  <xacro:include filename="$(find ${package_name})/urdf/robotiq_ft300.xacro"/>
+  <xacro:include filename="$(find ${package_name})/urdf/sensor_support.xacro"/>
+  <xacro:include filename="$(find ${package_name})/urdf/realsense_support.xacro"/>
+  <xacro:include filename="$(find realsense2_description)/urdf/_d455.urdf.xacro"/>
+  <xacro:include filename="$(find ${package_name})/urdf/robotiq_gripper_base.xacro"/>
+  <xacro:include filename="$(find robotiq_85_description)/urdf/robotiq_85_gripper.urdf.xacro"/>
+
+  <!-- IQR husky support -->
+  <xacro:sensor_support package="${package_name}" parent="user_rail_link">
+    <origin xyz="-0.272 0 0.0" rpy="0 0 0"/>
+  </xacro:sensor_support>
+
+  <!-- VLP-16 lidar -->
+  <xacro:vlp16 package="${package_name}" parent="vlp16_mount_link">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </xacro:vlp16>
+
+  <!-- zed2 camera -->
+  <xacro:zed2 package="${package_name}" parent="zed_mount_link">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </xacro:zed2>
+
+  <!-- Universal Robot UR5 -->
+  <xacro:ur5_robot prefix="ur5_arm_" joint_limited="true"/>
+  <joint name="ur5_arm_base" type="fixed">
+    <parent link="ur_mount_link"/>
+    <child link="ur5_arm_base_link"/>
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.78539815"/>
+  </joint>
+
+   <!-- TCP link -->
+   <link name="tcp_link"/>
+   <joint name="tcp_link_joint" type="fixed">
+     <origin xyz="0.20 0 0" rpy="0 0 0"/>
+     <parent link="ur5_arm_ee_link"/>
+     <child link="tcp_link"/>
+   </joint>
+ 
+   <!-- realsense d455 support -->
+   <xacro:realsense_support package="${package_name}" parent="ur5_arm_ee_link">
+     <origin xyz="0 0 0" rpy="0 0 0"/>
+   </xacro:realsense_support>
+ 
+   <!-- realsense d455 -->
+   <xacro:sensor_d455 parent="realsense_mount" use_nominal_extrinsics="$(arg use_nominal_extrinsics)">
+     <origin xyz="0.002 0 0" rpy="0 0 0"/>
+   </xacro:sensor_d455>
+ 
+   <!-- robotiq ft300 -->
+   <xacro:robotiq_ft300 package="${package_name}" parent="realsense_support_interface_mount">
+     <origin xyz="0 0 0" rpy="0 0 0"/>
+   </xacro:robotiq_ft300>
+ 
+  <!-- robotiq robotiq gripper base -->
+  <xacro:robotiq_gripper_base package="${package_name}" parent="robotiq_ft300_interface_mount">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </xacro:robotiq_gripper_base>
+
+  <!-- robotiq 85 gripper -->
+  <xacro:robotiq_85_gripper prefix="" parent="robotiq_gripper_mount">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </xacro:robotiq_85_gripper>
+
+</robot>
