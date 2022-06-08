@@ -36,10 +36,8 @@
 
   <!-- Universal Robots UR5 Setup -->
   <include file="$(find iqr_sz_bringup)/launch/include/ur5.launch.xml">
-    <arg name="prefix" value="ur5_arm_"/>
+    <arg name="tf_prefix" value="ur5_arm_"/>
     <arg name="robot_ip" value="192.168.33.11"/>
-    <arg name="min_payload" value="0.0"/>
-    <arg name="max_payload" value="5.0"/>
   </include>
 
   <!-- Robotiq 85 Gripper Setup -->

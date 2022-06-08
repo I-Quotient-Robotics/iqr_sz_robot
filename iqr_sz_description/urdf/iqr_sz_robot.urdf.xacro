@@ -10,7 +10,8 @@
   <!-- Include accessories -->
   <xacro:include filename="$(find ${package_name})/urdf/zed2.xacro"/>
   <xacro:include filename="$(find ${package_name})/urdf/vlp16.xacro"/>
-  <xacro:include filename="$(find ur_description)/urdf/ur5.urdf.xacro"/>
+  <!-- <xacro:include filename="$(find ur_description)/urdf/ur5.urdf.xacro"/> -->
+  <xacro:include filename="$(find ur_description)/urdf/inc/ur5_macro.xacro"/>
   <xacro:include filename="$(find ${package_name})/urdf/robotiq_ft300.xacro"/>
   <xacro:include filename="$(find ${package_name})/urdf/sensor_support.xacro"/>
   <xacro:include filename="$(find ${package_name})/urdf/realsense_support.xacro"/>
@@ -34,11 +35,19 @@
   </xacro:zed2>
 
   <!-- Universal Robot UR5 -->
-  <xacro:ur5_robot prefix="ur5_arm_" joint_limited="true"/>
+  <xacro:ur5_robot prefix="ur5_arm_"/>
   <joint name="ur5_arm_base" type="fixed">
     <parent link="ur_mount_link"/>
     <child link="ur5_arm_base_link"/>
-    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.78539815"/>
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 -0.78539815"/>
+  </joint>
+
+  <!-- EE link -->
+  <link name="ur5_arm_ee_link"/>
+  <joint name="ee_link_joint" type="fixed">
+    <origin xyz="0 0 0" rpy="1.5707 -1.5707 0"/>
+    <parent link="ur5_arm_tool0"/>
+    <child link="ur5_arm_ee_link"/>
   </joint>
 
    <!-- TCP link -->
@@ -56,7 +65,7 @@
  
    <!-- realsense d455 -->
    <xacro:sensor_d455 parent="realsense_mount" use_nominal_extrinsics="$(arg use_nominal_extrinsics)">
-     <origin xyz="0.002 0 0" rpy="0 0 0"/>
+     <origin xyz="0 0 0" rpy="0 0 0"/>
    </xacro:sensor_d455>
  
    <!-- robotiq ft300 -->
